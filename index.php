@@ -21,9 +21,10 @@
   </style>
 </head>
 <body>
+<h3><a href="views/products/home.php">Click to go HomePage</a></h3>
+<h5>Welcome to my page.</h5>
 
-<h2>Upload Excel File</h2>
-<form id="uploadForm" enctype="multipart/form-data">
+<!-- <form id="uploadForm" enctype="multipart/form-data">
   <input type="file" name="fileExcel" required><br><br>
   <button type="submit">Upload</button>
 </form>
@@ -63,7 +64,7 @@ xhr.onload = function () {
 
   xhr.send(formData);
 });
-</script>
+</script> -->
 
 </body>
 </html>

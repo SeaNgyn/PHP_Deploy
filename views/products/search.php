@@ -22,25 +22,25 @@ try {
     }
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $searchKey = $_GET['search'];
-        $sql = "SELECT * FROM tn_mon_hoc WHERE ten_mon LIKE :keyword OR ma_mon LIKE :keyword";
+        $sql = "SELECT * FROM TN_mon_hoc WHERE ten_mon LIKE :keyword OR ma_mon LIKE :keyword";
         $statement = $connection->prepare($sql);
         $statement->execute([':keyword' => '%' . $searchKey . '%']);
         $totalRows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         //phan trang 
            
-           $sql = "SELECT * FROM tn_mon_hoc WHERE ten_mon LIKE :keyword OR ma_mon LIKE :keyword LIMIT $begin, $limit";
+           $sql = "SELECT * FROM TN_mon_hoc WHERE ten_mon LIKE :keyword OR ma_mon LIKE :keyword LIMIT $begin, $limit";
            $statement = $connection->prepare($sql);
            $statement->execute([':keyword' => '%' . $searchKey . '%']);
            $monhocs = $statement->fetchAll(PDO::FETCH_ASSOC);
     } else {
         // Nếu không tìm kiếm, lấy tất cả môn học
-        $sql = "SELECT * FROM tn_mon_hoc";
+        $sql = "SELECT * FROM TN_mon_hoc";
         $statement = $connection->prepare($sql);
         $statement->execute();
         $totalRows = $statement->fetchAll(PDO::FETCH_ASSOC);
         //phan trang
-        $sql = "SELECT * FROM tn_mon_hoc LIMIT $begin, $limit";
+        $sql = "SELECT * FROM TN_mon_hoc LIMIT $begin, $limit";
         $statement = $connection->prepare($sql);
         $statement->execute();
         $monhocs = $statement->fetchAll(PDO::FETCH_ASSOC);

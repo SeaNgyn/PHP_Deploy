@@ -185,7 +185,7 @@ for ($s = 0; $s < $sheetCount; $s++) {
 
             if ($connection !== null) {
                 // Kiểm tra xem môn học đã tồn tại chưa
-                $stmtCheck = $connection->prepare("SELECT id FROM tn_mon_hoc WHERE ma_mon = ?");
+                $stmtCheck = $connection->prepare("SELECT id FROM TN_mon_hoc WHERE ma_mon = ?");
                 $stmtCheck->execute([$values3[1]]);  // ma_mon
                 $monHoc = $stmtCheck->fetch(PDO::FETCH_ASSOC);
 
@@ -194,7 +194,7 @@ for ($s = 0; $s < $sheetCount; $s++) {
                     $lastMonhocId = $monHoc['id'];
                 } else {
                     // Nếu chưa có thì insert mới
-                    $stmt3 = $connection->prepare("INSERT INTO tn_mon_hoc (
+                    $stmt3 = $connection->prepare("INSERT INTO TN_mon_hoc (
                     ten_mon, ma_mon, so_tin_chi
                     ) VALUES (?, ?, ?)");
                     $stmt3->execute($values3);
@@ -216,14 +216,14 @@ for ($s = 0; $s < $sheetCount; $s++) {
                             $tenHocKy = 'Không xác định';
                     }
                     // Check trùng học kỳ theo tên và năm
-                    $stmtCheckHK = $connection->prepare("SELECT id FROM tn_hoc_ky WHERE ten = ? AND nam_hoc = ?");
+                    $stmtCheckHK = $connection->prepare("SELECT id FROM TN_hoc_ky WHERE ten = ? AND nam_hoc = ?");
                     $stmtCheckHK->execute([$tenHocKy, date("Y")]);
                     $hocky = $stmtCheckHK->fetch(PDO::FETCH_ASSOC);
 
                     if ($hocky) {
                         $lastHocKyId = $hocky['id'];
 
-                        $stmtCheckMLHP = $connection->prepare("SELECT id FROM tn_ma_lop_hp mlhp join tn_hocky_malophp hkmlhp on mlhp.id = hkmlhp.malophp_id 
+                        $stmtCheckMLHP = $connection->prepare("SELECT id FROM TN_ma_lop_hp mlhp join TN_hocky_malophp hkmlhp on mlhp.id = hkmlhp.malophp_id 
                         WHERE ten_ma_lop_hp = ? AND loai_lop = ? AND hkmlhp.hocky_id = ?;");
                         $stmtCheckMLHP->execute([$values[1], $values[3], $lastHocKyId]);
 
@@ -231,7 +231,7 @@ for ($s = 0; $s < $sheetCount; $s++) {
                         if ($maLopHpCk) {
                             continue;
                         } else {
-                            $stmt = $connection->prepare("INSERT INTO tn_ma_lop_hp (
+                            $stmt = $connection->prepare("INSERT INTO TN_ma_lop_hp (
                         STT, ten_ma_lop_hp, phan_bo_tin_chi,
                         loai_lop, nganh, khoa, chuong_trinh_dao_tao, so_luong_sv,
                         thu, tiet, ngon_ngu_giang_day, giang_duong, id_mon_hoc
@@ -241,11 +241,11 @@ for ($s = 0; $s < $sheetCount; $s++) {
                             $lastMaLopHocPhanId = $connection->lastInsertId();
 
                             // Check trùng học kỳ - môn học
-                            $stmtCheck = $connection->prepare("SELECT 1 FROM tn_hocky_malophp WHERE hocky_id = ? AND malophp_id = ?");
+                            $stmtCheck = $connection->prepare("SELECT 1 FROM TN_hocky_malophp WHERE hocky_id = ? AND malophp_id = ?");
                             $stmtCheck->execute([$lastHocKyId, $lastMaLopHocPhanId]);
 
                             if (!$stmtCheck->fetch(PDO::FETCH_ASSOC)) {
-                                $stmt6 = $connection->prepare("INSERT INTO tn_hocky_malophp (hocky_id, malophp_id) VALUES (?, ?)");
+                                $stmt6 = $connection->prepare("INSERT INTO TN_hocky_malophp (hocky_id, malophp_id) VALUES (?, ?)");
                                 $stmt6->execute([$lastHocKyId, $lastMaLopHocPhanId]);
                             }
                         }
@@ -267,7 +267,7 @@ for ($s = 0; $s < $sheetCount; $s++) {
                         $gvName = trim($gvName);
                         if ($gvName === '') continue;
                         // Kiểm tra giảng viên có tồn tại chưa
-                        $stmtCheckGv = $connection->prepare("SELECT id FROM tn_giang_vien WHERE Name = ?");
+                        $stmtCheckGv = $connection->prepare("SELECT id FROM TN_giang_vien WHERE Name = ?");
                         $stmtCheckGv->execute([$gvName]);
                         $gv = $stmtCheckGv->fetch(PDO::FETCH_ASSOC);
                         $lastGiangvienId = $gv ? $gv['id'] : null;
@@ -275,19 +275,19 @@ for ($s = 0; $s < $sheetCount; $s++) {
                         if (!empty($lastGiangvienId)) {
                             // Kiểm tra cặp giảng_vien_id và id_mon_hoc đã tồn tại chưa
                             $stmtCheckGV_MH = $connection->prepare("
-                            SELECT 1 FROM tn_giangvien_monhoc 
+                            SELECT 1 FROM TN_giangvien_monhoc 
                             WHERE giang_vien_id = ? AND id_mon_hoc = ?
                             ");
                             $stmtCheckGV_MH->execute([$lastGiangvienId, $lastMonhocId]);
 
                             if (!$stmtCheckGV_MH->fetch()) {
                                 // Chưa tồn tại => chèn mới
-                                $stmt2 = $connection->prepare("INSERT INTO tn_giangvien_monhoc (
+                                $stmt2 = $connection->prepare("INSERT INTO TN_giangvien_monhoc (
                                 giang_vien_id, id_mon_hoc
                                 ) VALUES (?, ?)");
                                 $stmt2->execute([$lastGiangvienId, $lastMonhocId]);
                             }
-                            $stmt4 = $connection->prepare("INSERT INTO tn_giangvien_malophp (
+                            $stmt4 = $connection->prepare("INSERT INTO TN_giangvien_malophp (
                                 giang_vien_id, id_ma_lop_hp
                                 ) VALUES (?, ?)");
                             $stmt4->execute([$lastGiangvienId, $lastMaLopHocPhanId]);

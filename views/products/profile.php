@@ -2,7 +2,7 @@
 <?php
 include '../../configuration/database.php';
 try {
-    $sql = "SELECT * FROM tn_giang_vien WHERE id = 1 ";
+    $sql = "SELECT * FROM TN_giang_vien WHERE id = 1 ";
     if ($connection === null) {
         throw new Exception("Database connection is not established.");
     }

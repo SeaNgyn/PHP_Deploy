@@ -23,10 +23,10 @@ try {
 
     if ($id_mon) {
         $sql = "SELECT *
-        FROM tn_mon_hoc mh
-        JOIN tn_ma_lop_hp mlhp ON mh.id = mlhp.id_mon_hoc
-        LEFT JOIN tn_giangvien_malophp gvmlhp ON mlhp.id = gvmlhp.id_ma_lop_hp
-        LEFT JOIN tn_giang_vien gv ON gvmlhp.giang_vien_id = gv.id
+        FROM TN_mon_hoc mh
+        JOIN TN_ma_lop_hp mlhp ON mh.id = mlhp.id_mon_hoc
+        LEFT JOIN TN_giangvien_malophp gvmlhp ON mlhp.id = gvmlhp.id_ma_lop_hp
+        LEFT JOIN TN_giang_vien gv ON gvmlhp.giang_vien_id = gv.id
         WHERE mh.id = $id_mon ;";
                 // Lấy thông tin môn học
                 // $sqlMon = "SELECT * FROM mon_hoc WHERE id = ?";

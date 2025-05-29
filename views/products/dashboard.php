@@ -12,10 +12,10 @@
 
             <?php
             // $sql_trang = mysqli_query($statement,"SELECT * FROM ma_lop_hp");
-            $sql = "SELECT * from tn_giang_vien gv 
-            join tn_giangvien_malophp gvmlhp on gv.id = gvmlhp.giang_vien_id 
-            join tn_ma_lop_hp mlhp on mlhp.id = gvmlhp.id_ma_lop_hp 
-            join tn_mon_hoc mh on mlhp.id_mon_hoc = mh.id where gvmlhp.giang_vien_id = 68";
+            $sql = "SELECT * from TN_giang_vien gv 
+            join TN_giangvien_malophp gvmlhp on gv.id = gvmlhp.giang_vien_id 
+            join TN_ma_lop_hp mlhp on mlhp.id = gvmlhp.id_ma_lop_hp 
+            join TN_mon_hoc mh on mlhp.id_mon_hoc = mh.id where gvmlhp.giang_vien_id = 68";
             $statement = $connection->prepare($sql);
             $statement->execute();
             $statement->setFetchMode(PDO::FETCH_ASSOC);
